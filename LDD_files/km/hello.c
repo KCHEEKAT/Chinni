@@ -3,7 +3,7 @@
 #include <linux/init.h>       /* for the macros */
  
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Anusha Sodabathina");
+MODULE_AUTHOR("cheekatla kaveri device driver");
 MODULE_DESCRIPTION("Basic Kernel Module");
 MODULE_VERSION("0.1");
   
