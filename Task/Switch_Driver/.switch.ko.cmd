@@ -1,0 +1,1 @@
+cmd_/home/administrator/Downloads/Project/Switch_Driver/switch.ko := ld -r -m elf_x86_64 -z max-page-size=0x200000 -T ./scripts/module-common.lds --build-id  -o /home/administrator/Downloads/Project/Switch_Driver/switch.ko /home/administrator/Downloads/Project/Switch_Driver/switch.o /home/administrator/Downloads/Project/Switch_Driver/switch.mod.o ;  true
