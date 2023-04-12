@@ -1,0 +1,3 @@
+kernel/drivers/net/wireless/ti/wl1251/wl1251.ko
+kernel/drivers/net/wireless/ti/wl1251/wl1251_spi.ko
+kernel/drivers/net/wireless/ti/wl1251/wl1251_sdio.ko

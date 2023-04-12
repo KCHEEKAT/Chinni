@@ -1,0 +1,91 @@
+// How to test the driver:
+//Load the driver.
+sudo insmod drv_blk2.ko
+
+//Check whether the device file was created.
+ls -l /dev/cgrdb
+
+//Check whether sys FS devices and class entries were created for this device.
+ls -l /sys/devices/virtual/block/cgrdb
+ls -l /sys/class/block/cgrdb
+
+//Check whether a block device with name cgrdb was created. Check the size of the disk.
+sudo lsblk 
+
+// Create two partitions - 1) size 200KB, 2) size 199.5KB. Block/Sector num 0 is used for MBR.
+sudo fdisk /dev/cgrdb
+
+//Check whether the device files for partitions were created and observe the minor numbers of each device files (partitions).
+ls -l /dev/cgrdb*
+
+//Create filesystems of type ext4 (should match with the FS type of Root FS) on each of the two partitions.
+sudo mkfs -t ext4 /dev/cgrdb1
+sudo mkfs -t ext4 /dev/cgrdb2
+
+// Create two mount points(dir) somewhere under root filesystem. 
+cd /
+sudo mkdir /cg1
+sudo mkdir /cg2
+
+// Mount the newly created filesystems in the two partitions on the respective mount points.
+sudo mount /dev/cgrdb1 /cg1 
+sudo mount /dev/cgrdb2 /cg2
+
+// Check whether the filesystems of the two partitions are mounted and the mount points.
+df
+// Alternate command to check whether the filesystems of the two partitions are mounted and the mount points.
+mount
+
+// Check whether you are able to create dir(s) and file(s) on the two newly mounted file systems of the two partitions.
+// Login as root.
+sudo -i
+// Go to the first partition.
+cd /cg1
+mkdir d1
+// Check whether dir d1 was created.
+ls -l
+cd d1
+echo "Hello World" > f1
+// Check whether file f1 was created.
+ls -l
+// Go to the second partition.
+cd /cg2
+mkdir d2
+// Check whether dir d2 was created.
+ls -l
+cd d2
+// Copy file f1 from fist partition to the current dir of second partition.
+cp /cg1/d1/f1 .
+cat f1
+// Exit from root login.
+exit 
+
+// Unmount the newly created mounted filesystem.
+cd /
+sudo umount /dev/cgrdb1
+sudo umount /dev/cgrdb2
+// Alternate command to unmount the newly created mounted filesystem.
+sudo umount /cg1
+sudo umount /cg2
+
+// Check whether the filesystem is unmounted.
+df
+// Alternate command to check whether the filesystem is unmounted.
+mount
+
+// Check whether dir d1 and file f1 still exist.
+cd /cg1
+ls -l
+cd /cg2
+ls -l
+
+// Unload the driver.
+sudo rmmod drv_blk2
+
+//Check whether the device file exist.
+ls -l /dev/cgrdb*
+
+//Check whether the block device exist.
+lsblk 
+
+

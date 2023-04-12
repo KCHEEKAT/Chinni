@@ -1,0 +1,12 @@
+auto sn0
+iface sn0 inet static
+	address 192.168.0.1
+	netmask 255.255.255.0
+	gateway 192.168.0.100
+
+auto sn1
+iface sn1 inet static
+	address 192.168.1.2
+	netmask 255.255.255.0
+	#gateway 192.168.1.100
+

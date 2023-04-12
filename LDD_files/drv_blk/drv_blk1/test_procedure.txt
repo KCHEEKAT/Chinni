@@ -1,0 +1,68 @@
+// How to test the driver:
+//Load the driver.
+sudo insmod drv_blk1.ko
+
+//Check whether the device file was created.
+ls -l /dev/cgrda
+
+//Check whether sys FS devices and class entries were created for this device.
+ls -l /sys/devices/virtual/block/cgrda
+ls -l /sys/class/block/cgrda
+
+//Check whether block device was created. Check the size of the disk.
+sudo lsblk 
+
+//Create a filesystem of type ext4 (should match with the FS type of Root FS).
+sudo mkfs -t ext4 /dev/cgrda
+
+// Create a mount point (dir) somewhere under root filesystem. 
+cd /
+sudo mkdir /cg
+
+// Mount the newly created filesystem on the mount point.
+sudo mount /dev/cgrda /cg 
+
+// Check whether the filesystem is mounted and the mount point.
+df
+// Alternate command to check whether the filesystem is mounted and the mount point.
+mount
+
+// Check whether you are able to create dir and file on the newly mounted file system.
+// Login as root.
+sudo -i
+cd /cg
+mkdir d1
+// Check whether dir d1 was created.
+ls -l
+cd d1
+echo "Hello World" > f1
+// Check whether file f1 was created.
+ls -l
+// Exit from root login.
+exit 
+
+// Unmount the newly created mounted filesystem.
+cd /
+sudo umount /dev/cgrda
+// Alternate command to unmount the newly created mounted filesystem.
+sudo umount /cg
+
+// Check whether the filesystem is unmounted.
+df
+// Alternate command to check whether the filesystem is unmounted.
+mount
+
+// Check whether dir d1 and file f1 still exist.
+cd /cg
+ls -l
+
+// Unload the driver.
+sudo rmmod drv_blk1
+
+// Check whether the device file exist.
+ls -l /dev/cgrda
+
+//Check whether block device exist.
+lsblk 
+
+
