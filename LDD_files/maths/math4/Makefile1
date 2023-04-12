@@ -1,6 +1,0 @@
-abc:
-	cc math.c add.c subtract.c multiply.c divide.c -o math
-
-xyz:
-	rm -f math
-
